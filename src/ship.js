@@ -3,8 +3,8 @@ const Ship = (len) => {
     let hits = []
     let position = []
 
-    const createHit = (position) => {
-        hits.push(position)
+    const createHit = (pos) => {
+        hits.push(pos)
     }
 
     const isSunk = () => {
