@@ -8,22 +8,42 @@ function isArrayInArray(arr, item){
   }
 
 const gameboard = () => {
-    const missed = []
-    const placedShips = []
+    let missed = []
+    let placedShips = []
+    let gameover = false
 
     const add = (ship) => {
        placedShips.push(ship)
        return "ship added to gameboard"
     }
 
-    const receiveAttack = (coords) => {
-        const shipsHit = placedShips.filter(ship=>isArrayInArray(ship.position,coords)===true)
-        console.log(shipsHit)
-        if(shipsHit.length===1){return shipsHit[0]}
-        else{return null}
+    const checkGameOver = () => {
+        for(let i=0;i<placedShips.length;i++){
+            if(placedShips[i].isSunk()===true){
+                console.log("inside of game over", placedShips[i].isSunk() )
+                gameover=true
+                console.log("gameover value", gameover)
+            }
+            else{
+                console.log("inside of game over false", placedShips[i].isSunk() )
+                gameover=false
+            }
+        }
+        return(gameover)
     }
 
-    return {placedShips, add, receiveAttack}
+    const receiveAttack = (coords) => {
+        const shipsHit = placedShips.filter(ship=>isArrayInArray(ship.position,coords)===true)
+        console.log(shipsHit.length)
+        if(shipsHit.length===1){
+            shipsHit[0].createHit(coords)
+            return shipsHit[0]}
+        else if(shipsHit.length===0){
+            missed.push(coords)
+            return null}
+    }
+
+    return {missed, placedShips, add, receiveAttack, checkGameOver}
 
 }
 

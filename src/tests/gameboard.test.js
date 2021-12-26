@@ -29,20 +29,18 @@ describe("testing gameboard model", ()=>{
         expect(newShip.hits.length).toBe(1)
     })
 
-    test("records the coordinates of the missed shot", ()=>{
-        expect(gameboard.missed).toContain([0,0]) 
-    })
-
     test("Gameboards should keep track of missed attacks so they can display them properly.", ()=>{
-        const failAttack = gameboard.receiveAttack([0,0])
         const failAttack2 = gameboard.receiveAttack([1,1])
-        expect(gameboard.missed).toContain([0,0]) 
-        expect(gameboard.missed).toContain([1,1])           
+        expect(gameboard.missed).toEqual([[0,0],[1,1]])           
     })
     
     test("Gameboards should be able to report whether or not all of their ships have been sunk.", ()=>{
-        expect(gameboard.gameover).toBeDefined()
-        expect(gameboard.gameover).toBe(false)
+        expect(gameboard.checkGameOver()).toBeDefined()
+        expect(gameboard.checkGameOver()).toBe(false)
+        gameboard.receiveAttack([0,1])
+        gameboard.receiveAttack([0,3])
+        expect(gameboard.placedShips[0].isSunk()).toBe(true)
+        expect(gameboard.checkGameOver()).toBe(true)
     })
 })
 
