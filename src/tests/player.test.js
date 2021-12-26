@@ -4,11 +4,10 @@ import Gameboard from "../gameboard.js"
 
 describe("testing player model", ()=>{
 
-    gameboard1 = new Gameboard()
-    gameboard2 = new Gameboard()
-    player = new Player("player", 1, gameboard1)
-    computer = new Player("computer", 2, gameboard2)
-    
+    const gameboard1 = new Gameboard()
+    const gameboard2 = new Gameboard()
+    const player = new Player("player", 1, gameboard1)
+    const computer = new Player("computer", 2, gameboard2)
 
     test("creating a player returns an object", ()=>{
         expect(typeof player).toBe("object");
@@ -25,8 +24,8 @@ describe("testing player model", ()=>{
     })
 
     test("previous to the attack player turn is true", ()=>{
-        expect(player.turn).toBe(true)
-        expect(computer.turn).toBe(false)
+        expect(player.getTurn()).toBe(true)
+        expect(computer.getTurn()).toBe(false)
     })
 
     test("player can attack enemy gameboard", ()=>{
@@ -35,19 +34,27 @@ describe("testing player model", ()=>{
     })
 
     test("after attacking player turn is false, and computer turn is true", ()=>{
-        expect(player.turn).toBe(false)
-        expect(computer.turn).toBe(true)
+        expect(computer.getTurn()).toBe(true)
+        expect(player.getTurn()).toBe(false)
     })
 
     test("computer can play random legal moves", ()=>{
         computer.play("random", player)
         expect(player.board.missed.length).toEqual(1)
+        computer.play("random", player)
+        expect(player.board.missed.length).toEqual(2)
+        expect(player.board.missed[0]).not.toEqual(player.board.missed[1])
     })
 
     test("computer wont play a move already played", ()=>{
-        computer.play(player.board.missed[0], player)
-        expect(player.board.missed.length).toEqual(1)
-    })
+        for(let i=0; i<90; i++){
+            computer.play("random", player)
+        }
+        const response = computer.play(player.board.missed[0], player)
+        expect(response).toBe(null)
+        expect(player.board.missed.length).toEqual(92)
+    }) 
+
 })
 
     

@@ -8,6 +8,7 @@ function isArrayInArray(arr, item){
   }
 
 const gameboard = () => {
+    let size = 10
     let missed = []
     let placedShips = []
     let gameover = false
@@ -34,7 +35,6 @@ const gameboard = () => {
 
     const receiveAttack = (coords) => {
         const shipsHit = placedShips.filter(ship=>isArrayInArray(ship.position,coords)===true)
-        console.log(shipsHit.length)
         if(shipsHit.length===1){
             shipsHit[0].createHit(coords)
             return shipsHit[0]}
@@ -43,8 +43,9 @@ const gameboard = () => {
             return null}
     }
 
-    return {missed, placedShips, add, receiveAttack, checkGameOver}
+    return {missed, size, placedShips, add, receiveAttack, checkGameOver}
 
 }
 
+export {isArrayInArray}
 export default gameboard
