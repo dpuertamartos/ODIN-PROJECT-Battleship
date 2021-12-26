@@ -52,6 +52,8 @@ describe("testing player model", ()=>{
         }
         const response = computer.play(player.board.missed[0], player)
         expect(response).toBe(null)
+        const set = new Set(player.board.missed)
+        expect(player.board.missed.length).toEqual(set.size)
         expect(player.board.missed.length).toEqual(92)
     }) 
 
