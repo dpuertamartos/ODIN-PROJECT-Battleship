@@ -40,21 +40,24 @@ const Player = (mod, pos, gameboard) => {
     }
  
     const play = (attackedPosition, enemy) => {
+        let response;
         if(isArrayInArray(played,attackedPosition)){
-            return null
+            response = "already played"
         }
         else if (attackedPosition==="random"){
             const generatedPlay = generateCoord()
-            enemy.board.receiveAttack(generatedPlay)
+            response = [enemy.board.receiveAttack(generatedPlay),generatedPlay]
             played.push(generatedPlay)
+            swapTurn();
+            enemy.swapTurn();
         }
         else{
-            enemy.board.receiveAttack(attackedPosition);
+            response = enemy.board.receiveAttack(attackedPosition);
             played.push(attackedPosition);
+            swapTurn();
+            enemy.swapTurn();
         }
-        swapTurn();
-        enemy.swapTurn();
-        return attackedPosition    
+        return response   
     };
 
     return {board, mode, position, play, swapTurn, getTurn};

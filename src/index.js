@@ -16,7 +16,15 @@ controller.generateShips(player)
 controller.generateShips(computer)
 visual.initialize(player,computer)
 
+const passTurn = () => {
+    player.board.checkGameOver()
+    if(computer.getTurn()===true){
+        const response = computer.play("random",player)
+        visual.proccessComputerPlay(response)
+    }
+    computer.board.checkGameOver()
+}
 
 
 
-
+export {passTurn}

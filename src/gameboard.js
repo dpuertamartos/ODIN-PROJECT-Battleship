@@ -21,15 +21,13 @@ const gameboard = () => {
     const checkGameOver = () => {
         for(let i=0;i<placedShips.length;i++){
             if(placedShips[i].isSunk()===true){
-                console.log("inside of game over", placedShips[i].isSunk() )
-                gameover=true
-                console.log("gameover value", gameover)
+                gameover=true   
             }
             else{
-                console.log("inside of game over false", placedShips[i].isSunk() )
                 gameover=false
             }
         }
+        console.log(gameover)
         return(gameover)
     }
 
@@ -40,7 +38,7 @@ const gameboard = () => {
             return shipsHit[0]}
         else if(shipsHit.length===0){
             missed.push(coords)
-            return null}
+            return "missed"}
     }
 
     return {missed, size, placedShips, add, receiveAttack, checkGameOver}

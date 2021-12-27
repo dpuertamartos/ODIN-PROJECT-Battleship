@@ -1,4 +1,5 @@
 import { isArrayInArray } from "./gameboard"
+import { passTurn } from "./index.js"
 import boatImage from "./img/boat.png"
 import blankImage from "./img/blank.png"
 import emptyImage from "./img/empty.png"
@@ -21,22 +22,39 @@ const interfc = () => {
         col.append(img)
     }
 
-    const createSquareClickEvent = (square, board) => {
+    const proccessComputerPlay = (response) => {
+        const row = response[1][0].toString()
+        const col = response[1][1].toString()
+        const selectedSquare = document.querySelector(`[row="${row}"][col="${col}"]`)
+        if(response[0]==="missed"){
+            addImg(selectedSquare,emptyImage)
+        }
+        else{
+            addImg(selectedSquare,boatImage)
+        }
+    }
+
+    const createSquareClickEvent = (square, player, enemy) => {
         square.addEventListener("click", ()=>{
-            if(square.classList.contains("clicked")===false){
-                square.classList.add("clicked")
+            if(player.getTurn()===false){  
                 const rowAttacked = Number(square.getAttribute("row"))
                 const colAttacked = Number(square.getAttribute("col"))
-                const response = board.receiveAttack([rowAttacked, colAttacked])
-                if(response===null){
+                const response = enemy.play([rowAttacked, colAttacked],player)
+                if(response==="missed"){
                     addImg(square,emptyImage)
+                    passTurn()
+                }
+                else if(response==="already played"){
+                    createNotification("square already played!!")
                 }
                 else{
                     addImg(square,boatImage)
+                    passTurn()
                 }
             }
             else{
-                createNotification("square already played!!")
+                createNotification("computer turn, relax")
+                console.log("computer turn",player.getTurn(),"player turn",enemy.getTurn())
             }
         })
     }
@@ -44,10 +62,10 @@ const interfc = () => {
     const createNotification = (notification)=>{
         const notContainer = document.querySelector("#notification")
         notContainer.textContent=notification
-        setTimeout(() => notContainer.textContent = "",5000)
+        setTimeout(() => notContainer.textContent = "",2000)
     }
 
-    const createBoard = (container,player) => {
+    const createBoard = (container,player,enemy) => {
         const ships = player.board.placedShips
         const placedPositions = getPlacedPositions(ships)
         console.log("placedPositions", placedPositions)
@@ -61,7 +79,7 @@ const interfc = () => {
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
                 if(player.mode==="computer"){
-                    createSquareClickEvent(col, player.board)
+                    createSquareClickEvent(col, player, enemy)
                 }
                 row.append(col)
             }
@@ -71,13 +89,13 @@ const interfc = () => {
 
     const initialize = (player1,player2) => {
         const g1container = document.querySelector("#player1board")
-        createBoard(g1container,player1)
+        createBoard(g1container,player1,player2)
         const g2container = document.querySelector("#player2board")
-        createBoard(g2container,player2)
+        createBoard(g2container,player2,player1)
         createNotification("GAME START")
     }
 
-    return {initialize, addImg, createNotification}
+    return {initialize, addImg, createNotification, proccessComputerPlay}
 }
 
 export default interfc;

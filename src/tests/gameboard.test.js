@@ -22,7 +22,7 @@ describe("testing gameboard model", ()=>{
 
     test("determines wheter or not the attack hit a ship", ()=>{
         expect(successAttack).toBe(newShip)
-        expect(failAttack).toBe(null)  
+        expect(failAttack).toBe("missed")  
     })
 
     test("send hit function to the correct ship", ()=>{
@@ -38,6 +38,7 @@ describe("testing gameboard model", ()=>{
         expect(gameboard.checkGameOver()).toBeDefined()
         expect(gameboard.checkGameOver()).toBe(false)
         gameboard.receiveAttack([0,1])
+        expect(gameboard.checkGameOver()).toBe(false)
         gameboard.receiveAttack([0,3])
         expect(gameboard.placedShips[0].isSunk()).toBe(true)
         expect(gameboard.checkGameOver()).toBe(true)

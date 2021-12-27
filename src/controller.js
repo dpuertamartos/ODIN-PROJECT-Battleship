@@ -20,6 +20,7 @@ const controller = () => {
             player.board.add(newShip)
         }
     }
+
     return {generateShips}
 }
 
