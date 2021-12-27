@@ -1,12 +1,47 @@
+import { isArrayInArray } from "./gameboard"
+import boatImage from "./img/boat.png"
+import blankImage from "./img/blank.png"
+
 const interfc = () => {
 
+    const getPlacedPositions = (ships) => {
+        let placedPositions = []
+        for(let i=0;i<ships.length;i++){
+            placedPositions=placedPositions.concat(ships[i].position)
+        }
+        return placedPositions
+    }
+
+    const addImg = (col) =>{
+        const i = col.getAttribute("row")
+        const j = col.getAttribute("col")
+        
+        const img = document.createElement("img")
+        img.clasName = "img-fluid"
+        img.setAttribute("class","img-fluid imgsquare")
+        img.src = boatImage
+        
+        if(isArrayInArray(placedPositions,[i,j])===true){
+            img.src = boatImage
+        }
+        else{
+            img.src = blankImage
+        }
+
+        col.append(img)
+    }
+
     const createBoard = (container,gameboard) => {
+        const ships = gameboard.placedShips
+        const placedPositions = getPlacedPositions(ships)
+        console.log("placedPositions", placedPositions)
+
         for(let i=0;i<gameboard.size;i++){
             const row = document.createElement("div")
             row.className="row"
             for(let j=0;j<gameboard.size;j++){
                 const col = document.createElement("div")
-                col.className="col square"
+                col.className="col square d-flex justify-content-center"
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
                 row.append(col)
@@ -22,7 +57,7 @@ const interfc = () => {
         createBoard(g2container,gameboard2)
     }
 
-    return {initialize}
+    return {initialize, addImg}
 }
 
 export default interfc;
