@@ -14,7 +14,7 @@ const visual = Interface()
 
 controller.generateShips(player)
 controller.generateShips(computer)
-visual.initialize(player.board,computer.board)
+visual.initialize(player,computer)
 
 
 

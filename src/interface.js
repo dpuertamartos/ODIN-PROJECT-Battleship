@@ -43,31 +43,33 @@ const interfc = () => {
         setTimeout(() => notContainer.textContent = "",5000)
     }
 
-    const createBoard = (container,gameboard) => {
-        const ships = gameboard.placedShips
+    const createBoard = (container,player) => {
+        const ships = player.board.placedShips
         const placedPositions = getPlacedPositions(ships)
         console.log("placedPositions", placedPositions)
 
-        for(let i=0;i<gameboard.size;i++){
+        for(let i=0;i<player.board.size;i++){
             const row = document.createElement("div")
             row.className="row"
-            for(let j=0;j<gameboard.size;j++){
+            for(let j=0;j<player.board.size;j++){
                 const col = document.createElement("div")
                 col.className="col square d-flex justify-content-center"
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
-                createSquareClickEvent(col)
+                if(player.mode==="computer"){
+                    createSquareClickEvent(col)
+                }
                 row.append(col)
             }
             container.append(row)
         }
     }
 
-    const initialize = (gameboard1,gameboard2) => {
+    const initialize = (player1,player2) => {
         const g1container = document.querySelector("#player1board")
-        createBoard(g1container,gameboard1)
+        createBoard(g1container,player1)
         const g2container = document.querySelector("#player2board")
-        createBoard(g2container,gameboard2)
+        createBoard(g2container,player2)
         createNotification("GAME START")
     }
 
