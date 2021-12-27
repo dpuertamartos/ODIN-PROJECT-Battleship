@@ -19,13 +19,9 @@ const gameboard = () => {
     }
 
     const checkGameOver = () => {
-        for(let i=0;i<placedShips.length;i++){
-            if(placedShips[i].isSunk()===true){
-                gameover=true   
-            }
-            else{
-                gameover=false
-            }
+        const notSunk = placedShips.filter(ship=>ship.isSunk()===false)
+        if(notSunk.length===0){
+            gameover=true
         }
         console.log(gameover)
         return(gameover)
