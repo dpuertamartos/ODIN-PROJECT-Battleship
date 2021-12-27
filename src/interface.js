@@ -31,6 +31,18 @@ const interfc = () => {
         col.append(img)
     }
 
+    const createSquareClickEvent = (square) => {
+        square.addEventListener("click", ()=>{
+            console.log("square clicked")
+        })
+    }
+
+    const createNotification = (notification)=>{
+        const notContainer = document.querySelector("#notification")
+        notContainer.textContent=notification
+        setTimeout(() => notContainer.textContent = "",5000)
+    }
+
     const createBoard = (container,gameboard) => {
         const ships = gameboard.placedShips
         const placedPositions = getPlacedPositions(ships)
@@ -44,6 +56,7 @@ const interfc = () => {
                 col.className="col square d-flex justify-content-center"
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
+                createSquareClickEvent(col)
                 row.append(col)
             }
             container.append(row)
@@ -55,9 +68,10 @@ const interfc = () => {
         createBoard(g1container,gameboard1)
         const g2container = document.querySelector("#player2board")
         createBoard(g2container,gameboard2)
+        createNotification("GAME START")
     }
 
-    return {initialize, addImg}
+    return {initialize, addImg, createNotification}
 }
 
 export default interfc;
