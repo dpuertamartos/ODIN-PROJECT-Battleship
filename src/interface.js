@@ -1,6 +1,7 @@
 import { isArrayInArray } from "./gameboard"
 import boatImage from "./img/boat.png"
 import blankImage from "./img/blank.png"
+import emptyImage from "./img/empty.png"
 
 const interfc = () => {
 
@@ -12,28 +13,31 @@ const interfc = () => {
         return placedPositions
     }
 
-    const addImg = (col) =>{
-        const i = col.getAttribute("row")
-        const j = col.getAttribute("col")
-        
+    const addImg = (col, imgadded) =>{    
         const img = document.createElement("img")
         img.clasName = "img-fluid"
         img.setAttribute("class","img-fluid imgsquare")
-        img.src = boatImage
-        
-        if(isArrayInArray(placedPositions,[i,j])===true){
-            img.src = boatImage
-        }
-        else{
-            img.src = blankImage
-        }
-
+        img.src = imgadded
         col.append(img)
     }
 
-    const createSquareClickEvent = (square) => {
+    const createSquareClickEvent = (square, board) => {
         square.addEventListener("click", ()=>{
-            console.log("square clicked")
+            if(square.classList.contains("clicked")===false){
+                square.classList.add("clicked")
+                const rowAttacked = Number(square.getAttribute("row"))
+                const colAttacked = Number(square.getAttribute("col"))
+                const response = board.receiveAttack([rowAttacked, colAttacked])
+                if(response===null){
+                    addImg(square,emptyImage)
+                }
+                else{
+                    addImg(square,boatImage)
+                }
+            }
+            else{
+                createNotification("square already played!!")
+            }
         })
     }
 
@@ -57,7 +61,7 @@ const interfc = () => {
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
                 if(player.mode==="computer"){
-                    createSquareClickEvent(col)
+                    createSquareClickEvent(col, player.board)
                 }
                 row.append(col)
             }
