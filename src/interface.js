@@ -43,13 +43,20 @@ const interfc = () => {
         else{
             selectedSquare.setAttribute("style","opacity:0.35;")
             addImg(selectedSquare,sinkBoat)
-            computerPlay(c,p)
+            computerPlay(c,p,true)
         }
     }
 
-    const computerPlay = async (c,p) => {
+    const computerPlay = async (c,p,hit) => {
         await delay(800)
-        const response = c.play("random",p)
+        let response;
+        if(hit){
+            response = c.play("brained",p)
+        }
+        else{
+            response = c.play("random",p)
+        }
+        
         proccessComputerPlay(response, c, p)
     }
 
@@ -65,7 +72,7 @@ const interfc = () => {
                     fireSound.play()
                     square.setAttribute("style","opacity:0.2;")
                     if(player.getTurn()===true){
-                        computerPlay(player,enemy)
+                        computerPlay(player,enemy,false)
                         if(enemy.board.checkGameOver()){
                             gameOver(player.position)
                             createNotification("computer won")
