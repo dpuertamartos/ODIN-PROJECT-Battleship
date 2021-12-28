@@ -22,7 +22,7 @@ const interfc = () => {
         col.append(img)
     }
 
-    const proccessComputerPlay = (response) => {
+    const proccessComputerPlay = (response, c, p) => {
         const row = response[1][0].toString()
         const col = response[1][1].toString()
         const selectedSquare = document.querySelector(`[row="${row}"][col="${col}"]`)
@@ -31,26 +31,45 @@ const interfc = () => {
         }
         else{
             addImg(selectedSquare,boatImage)
+            computerPlay(c,p)
         }
     }
 
+    const computerPlay = (c,p) => {
+        const response = c.play("random",p)
+        proccessComputerPlay(response, c, p)
+    }
+
+    
     const createSquareClickEvent = (square, player, enemy) => {
         square.addEventListener("click", ()=>{
-            if(player.getTurn()===false){  
+            if(player.getTurn()===false&&player.board.checkGameOver()===false&&enemy.board.checkGameOver()===false){  
                 const rowAttacked = Number(square.getAttribute("row"))
                 const colAttacked = Number(square.getAttribute("col"))
                 const response = enemy.play([rowAttacked, colAttacked],player)
                 if(response==="missed"){
                     addImg(square,emptyImage)
-                    passTurn()
+                    if(player.getTurn()===true){
+                        computerPlay(player,enemy)
+                        if(enemy.board.checkGameOver()){
+                            gameOver(player.position)
+                            createNotification("computer won")
+                        }
+                    }
                 }
                 else if(response==="already played"){
                     createNotification("square already played!!")
                 }
                 else{
                     addImg(square,boatImage)
-                    passTurn()
+                    if(player.board.checkGameOver()){
+                        gameOver(enemy.position)
+                        createNotification("player 1 won")
+                    }
                 }
+            }
+            else if(player.board.checkGameOver()===true||enemy.board.checkGameOver()===false){
+                createNotification("game is over, relax")
             }
             else{
                 createNotification("computer turn, relax")
@@ -95,7 +114,22 @@ const interfc = () => {
         createNotification("GAME START")
     }
 
-    return {initialize, addImg, createNotification, proccessComputerPlay}
+    const gameOver = (position) => {
+        if(position===1){
+            const ownBoard = document.querySelector("#player1board")
+            ownBoard.textContent = ""
+            const attackedBoard = document.querySelector("#player2board")
+            attackedBoard.classList.add("boardDestroyed")
+        }
+        else{
+            const ownBoard = document.querySelector("#player2board")
+            ownBoard.textContent = ""
+            const attackedBoard = document.querySelector("#player1board")
+            attackedBoard.classList.add("boardDestroyed")
+        }
+    }
+
+    return {initialize, addImg, createNotification, proccessComputerPlay, gameOver}
 }
 
 export default interfc;

@@ -48,14 +48,18 @@ const Player = (mod, pos, gameboard) => {
             const generatedPlay = generateCoord()
             response = [enemy.board.receiveAttack(generatedPlay),generatedPlay]
             played.push(generatedPlay)
-            swapTurn();
-            enemy.swapTurn();
+            if(response[0]==="missed"){
+                swapTurn();
+                enemy.swapTurn();
+            }
         }
         else{
             response = enemy.board.receiveAttack(attackedPosition);
             played.push(attackedPosition);
-            swapTurn();
-            enemy.swapTurn();
+            if(response==="missed"){
+                swapTurn();
+                enemy.swapTurn();
+            }
         }
         return response   
     };
