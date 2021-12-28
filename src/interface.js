@@ -117,7 +117,16 @@ const interfc = () => {
         const ships = player.board.placedShips
         const placedPositions = getPlacedPositions(ships)
         console.log("placedPositions", placedPositions)
-
+        const title = document.createElement("div")
+        title.className = "row justify-content-center boardTitleContainer"
+        
+        if(player.position===1){
+            title.textContent="YOUR WATERS"
+        }
+        else{
+            title.textContent="ENEMY WATERS"
+        }
+        container.append(title)
         for(let i=0;i<player.board.size;i++){
             const row = document.createElement("div")
             row.className="row"
