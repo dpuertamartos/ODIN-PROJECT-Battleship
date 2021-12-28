@@ -1,8 +1,12 @@
 import { isArrayInArray } from "./gameboard"
 import { passTurn } from "./index.js"
 import boatImage from "./img/boat.png"
+import sinkBoat from "./img/sinkboat.png"
 import blankImage from "./img/blank.png"
 import emptyImage from "./img/empty.png"
+import fireShot from "./assets/fireshot.mp3"
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const interfc = () => {
 
@@ -15,6 +19,7 @@ const interfc = () => {
     }
 
     const addImg = (col, imgadded) =>{    
+        col.textContent=""
         const img = document.createElement("img")
         img.clasName = "img-fluid"
         img.setAttribute("class","img-fluid imgsquare")
@@ -23,6 +28,8 @@ const interfc = () => {
     }
 
     const proccessComputerPlay = (response, c, p) => {
+        const fireSound = new Audio(fireShot)
+        fireSound.play()
         const row = response[1][0].toString()
         const col = response[1][1].toString()
         const selectedSquare = document.querySelector(`[row="${row}"][col="${col}"]`)
@@ -30,12 +37,14 @@ const interfc = () => {
             selectedSquare.setAttribute("style","opacity:0.2;")
         }
         else{
-            addImg(selectedSquare,boatImage)
+            selectedSquare.setAttribute("style","opacity:0.35;")
+            addImg(selectedSquare,sinkBoat)
             computerPlay(c,p)
         }
     }
 
-    const computerPlay = (c,p) => {
+    const computerPlay = async (c,p) => {
+        await delay(800)
         const response = c.play("random",p)
         proccessComputerPlay(response, c, p)
     }
@@ -48,6 +57,8 @@ const interfc = () => {
                 const colAttacked = Number(square.getAttribute("col"))
                 const response = enemy.play([rowAttacked, colAttacked],player)
                 if(response==="missed"){
+                    const fireSound = new Audio(fireShot)
+                    fireSound.play()
                     square.setAttribute("style","opacity:0.2;")
                     if(player.getTurn()===true){
                         computerPlay(player,enemy)
@@ -61,6 +72,8 @@ const interfc = () => {
                     createNotification("square already played!!")
                 }
                 else{
+                    const fireSound = new Audio(fireShot)
+                    fireSound.play()
                     addImg(square,boatImage)
                     if(player.board.checkGameOver()){
                         gameOver(enemy.position)
@@ -68,11 +81,11 @@ const interfc = () => {
                     }
                 }
             }
-            else if(player.board.checkGameOver()===true||enemy.board.checkGameOver()===false){
-                createNotification("game is over, relax")
+            else if(player.board.checkGameOver()===true||enemy.board.checkGameOver()===true){
+                createNotification("A VICTORIOUS ARMY WAS ALREADY DECLARED")
             }
             else{
-                createNotification("computer turn, relax")
+                createNotification("ENEMY TURN, AWAIT YOUR TURN!")
                 console.log("computer turn",player.getTurn(),"player turn",enemy.getTurn())
             }
         })
@@ -100,10 +113,50 @@ const interfc = () => {
                 if(player.mode==="computer"){
                     createSquareClickEvent(col, player, enemy)
                 }
+                else if(player.mode==="player"&&isArrayInArray(placedPositions,[i,j])){
+                    addImg(col,boatImage)
+                }
                 row.append(col)
             }
             container.append(row)
         }
+    }
+    const placingListener = (col,i,j) => {
+        console.log("placing")
+        const parent = document.querySelector(".modal-content")
+        let selectedList = []
+        col.addEventListener("mouseover", ()=>{
+            for(let w=0;w<5;w++){
+                selectedList.push(parent.querySelector(`[row="${i+w}"][col="${j}"]`))
+            }
+            
+            console.log(selectedList, i, j, col)
+            selectedList.forEach(s=>s.setAttribute("style","opacity: 0.2;"))
+        })
+        col.addEventListener("mouseout", ()=>{
+            selectedList.forEach(s=>s.setAttribute("style","opacity: 0.7;"))
+        })
+    }
+
+    const createPlacingBoard = () => {
+        const parent = document.querySelector(".modal-content")
+        parent.textContent=""
+        const container = document.createElement("div")
+        container.className = "container"
+        for(let i=0;i<10;i++){
+            const row = document.createElement("div")
+            row.className="row"
+            for(let j=0;j<10;j++){
+                const col = document.createElement("div")
+                col.className="col square d-flex justify-content-center"
+                col.setAttribute("row",`${i}`)
+                col.setAttribute("col",`${j}`)
+                placingListener(col,i,j)
+                row.append(col)
+            }
+            container.append(row)
+        }
+        parent.append(container)
     }
 
     const initialize = (player1,player2) => {
@@ -129,7 +182,7 @@ const interfc = () => {
         }
     }
 
-    return {initialize, addImg, createNotification, proccessComputerPlay, gameOver}
+    return {initialize, addImg, createNotification, proccessComputerPlay, gameOver, createPlacingBoard}
 }
 
 export default interfc;

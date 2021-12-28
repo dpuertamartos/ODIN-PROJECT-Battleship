@@ -21,8 +21,9 @@ const modal = document.querySelector(".modal")
 let sound = new Audio(backgroundSound)
 playButton.addEventListener("click", ()=>{
     sound.play()
-    visual.initialize(player,computer)
-    modal.remove()
+    visual.createPlacingBoard(modal)
+    // visual.initialize(player,computer)
+    // modal.remove()
 })
 
 
