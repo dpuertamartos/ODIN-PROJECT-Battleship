@@ -10,7 +10,25 @@
     position: relative;
 }
 
+.github:hover{
+    border-radius: 110px;
+    background-color: #1C292E;
+}
+.github{
+    width: 50px;
+}
 
+.rowGitHub{
+    max-height: 50px;
+    text-align: left;
+}
+
+.credentials{
+    padding-top: 3%;
+    color: whitesmoke;
+    font-size: 0.8rem;
+    font-style: italic;
+}
 
 .notificationContainerMain{
     padding-top: 2.2%;
@@ -157,7 +175,7 @@
   }
 
 .play{
-    margin-top: 10%;
+    margin: 8% 0% 8%;
 }
 
 #textLogin{
