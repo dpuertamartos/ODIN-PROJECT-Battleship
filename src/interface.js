@@ -11,8 +11,13 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 const controller = Controller()
 
 const interfc = () => {
-
+    
+    let playerName = ""
     let axisX = true
+
+    const changePlayerName = (string) => {
+        playerName = string
+    }
 
     const getPlacedPositions = (ships) => {
         let placedPositions = []
@@ -75,7 +80,7 @@ const interfc = () => {
                         computerPlay(player,enemy,false)
                         if(enemy.board.checkGameOver()){
                             gameOver(player.position)
-                            createNotification("computer won")
+                            createNotification(`${playerName} has lost!! Computer won!!`)
                         }
                     }
                 }
@@ -88,7 +93,7 @@ const interfc = () => {
                     addImg(square,boatImage)
                     if(player.board.checkGameOver()){
                         gameOver(enemy.position)
-                        createNotification("player 1 won")
+                        createNotification(`${playerName} has won!! Computer lost!!`)
                     }
                 }
             }
@@ -105,7 +110,7 @@ const interfc = () => {
     const createNotification = (notification)=>{
         const notContainer = document.querySelector("#notification")
         notContainer.textContent=notification
-        setTimeout(() => notContainer.textContent = "",3000)
+        setTimeout(() => notContainer.textContent = "",5000)
     }
 
     const createBoard = (container,player,enemy) => {
@@ -241,21 +246,27 @@ const interfc = () => {
     }
 
     const gameOver = (position) => {
+
         if(position===1){
-            const ownBoard = document.querySelector("#player1board")
-            ownBoard.textContent = ""
+            const ownBoardTitle = document.querySelector("#player1board").querySelector(".boardTitleContainer")
+            ownBoardTitle.textContent="Winner"
             const attackedBoard = document.querySelector("#player2board")
+            const enemyBoardTitle = attackedBoard.querySelector(".boardTitleContainer")
+            enemyBoardTitle.textContent="Float Destroyed"
             attackedBoard.classList.add("boardDestroyed")
         }
+
         else{
-            const ownBoard = document.querySelector("#player2board")
-            ownBoard.textContent = ""
+            const ownBoardTitle = document.querySelector("#player2board").querySelector(".boardTitleContainer")
+            ownBoardTitle.textContent="Winner"
             const attackedBoard = document.querySelector("#player1board")
+            const enemyBoardTitle = attackedBoard.querySelector(".boardTitleContainer")
+            enemyBoardTitle.textContent="Float Destroyed"
             attackedBoard.classList.add("boardDestroyed")
         }
     }
 
-    return {initialize, addImg, createNotification, proccessComputerPlay, gameOver, createPlacingBoard}
+    return {initialize, changePlayerName, addImg, createNotification, proccessComputerPlay, gameOver, createPlacingBoard}
 }
 
 export default interfc;

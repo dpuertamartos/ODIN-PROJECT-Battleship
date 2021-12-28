@@ -15,8 +15,7 @@ const controller = () => {
         [6,[4,9],[9,9]]
     ]
     let mockShipsForPlacingBoard = []
-    let startingBoats = []
-    
+    let startingBoats = [] 
 
     const generateShips = (player) => {
         for(let i=0;i<startingBoats.length;i++){

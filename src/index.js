@@ -16,7 +16,10 @@ const playButton = document.querySelector(".play")
 const modal = document.querySelector(".modal")
 let sound = new Audio(backgroundSound)
 playButton.addEventListener("click", ()=>{
+    const playerName = document.querySelector("#inputName").value
+    console.log(playerName)
     sound.play()
+    visual.changePlayerName(playerName)
     visual.createPlacingBoard(2,[])
 })
 
