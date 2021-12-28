@@ -26,6 +26,14 @@ const controller = () => {
         }
     }
 
+    const generatePredetermined = (player) => {
+        for(let i=0;i<startingBoatsAuto.length;i++){
+            const newShip = Ship(startingBoatsAuto[i][0])
+            newShip.place(startingBoatsAuto[i][1],startingBoatsAuto[i][2])
+            player.board.add(newShip)
+        }
+    }
+
     const saveStartingBoat = (length,start,end) => {
         startingBoats.push([length,start,end])
         const mockShip = Ship(length)
@@ -41,7 +49,7 @@ const controller = () => {
         }
     }
 
-    return {generateShips, saveStartingBoat}
+    return {generateShips, generatePredetermined, saveStartingBoat}
 }
 
 export default controller;

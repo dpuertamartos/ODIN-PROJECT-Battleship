@@ -1,4 +1,5 @@
 import { isArrayInArray } from "./gameboard"
+import { initializeGame } from "./index.js"
 import boatImage from "./img/boat.png"
 import sinkBoat from "./img/sinkboat.png"
 import blankImage from "./img/blank.png"
@@ -155,14 +156,15 @@ const interfc = () => {
                 if(response[0]==="create"){
                     createPlacingBoard(response[1],response[2])
                 }
+                else{
+                    initializeGame(controller)
+                }
             }
         })
     }
 
     const createPlacingBoard = (length, arrayShips) => {
-        console.log("arrayships for createplacing board", arrayShips)
         const placedPositions= getPlacedPositions(arrayShips)
-        console.log("placed positions for createplacing board", placedPositions)
         const parent = document.querySelector(".modal-content")
         parent.textContent=""
         const container = document.createElement("div")
@@ -196,7 +198,6 @@ const interfc = () => {
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
                 if(isArrayInArray(placedPositions,[i,j])){
-                    console.log("inside of placed = true")
                     col.setAttribute("placed","yes")
                     col.classList.add("placed")
                 }
