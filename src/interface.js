@@ -12,6 +12,8 @@ const controller = Controller()
 
 const interfc = () => {
 
+    let axisX = true
+
     const getPlacedPositions = (ships) => {
         let placedPositions = []
         for(let i=0;i<ships.length;i++){
@@ -130,8 +132,14 @@ const interfc = () => {
         col.addEventListener("mouseover", ()=>{
             selectedList = []
             for(let w=0;w<length;w++){
-                const squareToAdd = parent.querySelector(`[row="${i+w}"][col="${j}"][placed="no"]`)
-                if(squareToAdd!==null){selectedList.push(squareToAdd)}        
+                if(axisX){
+                    const squareToAdd = parent.querySelector(`[row="${i+w}"][col="${j}"][placed="no"]`)
+                    if(squareToAdd!==null){selectedList.push(squareToAdd)}  
+                }
+                else{
+                    const squareToAdd = parent.querySelector(`[row="${i}"][col="${j+w}"][placed="no"]`)
+                    if(squareToAdd!==null){selectedList.push(squareToAdd)}  
+                }
             }
             if(selectedList.length<length){
                 selectedList.forEach(s=>s.setAttribute("style","opacity: 0.2; background-color: red;"))
@@ -186,6 +194,11 @@ const interfc = () => {
         const switchButton = document.createElement("button")
         switchButton.className = "btn btn-success changeAxis"
         switchButton.textContent = "Change axis"
+        switchButton.addEventListener("click", ()=>{
+            axisX=!axisX
+            console.log("axis X", axisX)
+            createPlacingBoard(length, arrayShips)
+        })
         row2.append(switchButton)
         container.append(row1,row2)
 
