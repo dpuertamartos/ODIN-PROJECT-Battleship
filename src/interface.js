@@ -4,8 +4,10 @@ import sinkBoat from "./img/sinkboat.png"
 import blankImage from "./img/blank.png"
 import emptyImage from "./img/empty.png"
 import fireShot from "./assets/fireshot.mp3"
+import Controller from "./controller.js"
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
+const controller = Controller()
 
 const interfc = () => {
 
@@ -120,17 +122,17 @@ const interfc = () => {
             container.append(row)
         }
     }
-    const placingListener = (col,i,j) => {
+    const placingListener = (col,i,j,length) => {
         console.log("placing")
         const parent = document.querySelector(".modal-content")
         let selectedList = []
         col.addEventListener("mouseover", ()=>{
             selectedList = []
-            for(let w=0;w<5;w++){
-                const squareToAdd = parent.querySelector(`[row="${i+w}"][col="${j}"]`)
+            for(let w=0;w<length;w++){
+                const squareToAdd = parent.querySelector(`[row="${i+w}"][col="${j}"][placed="no"]`)
                 if(squareToAdd!==null){selectedList.push(squareToAdd)}        
             }
-            if(selectedList.length<5){
+            if(selectedList.length<length){
                 selectedList.forEach(s=>s.setAttribute("style","opacity: 0.2; background-color: red;"))
             }
             else{
@@ -141,9 +143,26 @@ const interfc = () => {
         col.addEventListener("mouseout", ()=>{
             selectedList.forEach(s=>s.setAttribute("style","opacity: 0.7;"))
         }) 
+        col.addEventListener("click", ()=>{
+            if(selectedList.length===length){
+                selectedList.forEach(s=>{
+                    s.classList.add("placed")
+                    s.setAttribute("placed","yes")
+                })
+                const start = [Number(selectedList[0].getAttribute("row")),Number(selectedList[0].getAttribute("col"))]
+                const end = [Number(selectedList[selectedList.length-1].getAttribute("row")),Number(selectedList[selectedList.length-1].getAttribute("col"))]
+                const response = controller.saveStartingBoat(selectedList.length,start,end)
+                if(response[0]==="create"){
+                    createPlacingBoard(response[1],response[2])
+                }
+            }
+        })
     }
 
-    const createPlacingBoard = (length) => {
+    const createPlacingBoard = (length, arrayShips) => {
+        console.log("arrayships for createplacing board", arrayShips)
+        const placedPositions= getPlacedPositions(arrayShips)
+        console.log("placed positions for createplacing board", placedPositions)
         const parent = document.querySelector(".modal-content")
         parent.textContent=""
         const container = document.createElement("div")
@@ -176,7 +195,15 @@ const interfc = () => {
                 col.className="col square d-flex justify-content-center"
                 col.setAttribute("row",`${i}`)
                 col.setAttribute("col",`${j}`)
-                placingListener(col,i,j)
+                if(isArrayInArray(placedPositions,[i,j])){
+                    console.log("inside of placed = true")
+                    col.setAttribute("placed","yes")
+                    col.classList.add("placed")
+                }
+                else{
+                    col.setAttribute("placed","no")
+                }
+                placingListener(col,i,j,length)
                 row.append(col)
             }
             container.append(row)
