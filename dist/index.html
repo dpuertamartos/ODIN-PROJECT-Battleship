@@ -7,17 +7,29 @@
   </head>
   <body>
     <div class="hero-image">
-    <div class="container">
-      <div id="notification" class="row justify-content-center"></div>
-    </div>
-    <div class="container-fluid maincontainer">
-      <div class="row">
-        <div id="player1board" class="col-5 col-lg-5 container boardcontainer">
-        </div>
-        <div id="player2board" class="col-5 col-lg-5 container boardcontainer">
+      <div class="container">
+        <div id="notification" class="row justify-content-center"></div>
+      </div>
+      <div class="container maincontainer">
+        <div class="row row-cols-1 row-cols-lg-2 justify-content-around">
+          <div id="player1board" class="col col-lg-5 container boardcontainer">
+          </div>
+          <div id="player2board" class="col col-lg-5 container boardcontainer">
+          </div>
         </div>
       </div>
     </div>
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <input type="text" id="inputName" class="form-control">
+        <div id="textLogin" class="form-text">
+              Enter your name, play and have fun
+        </div>
+        <button class="btn btn-success play">Play</button>
+      </div>
+    
     </div>
     <div class="cr">David Puerta ©
       <script>

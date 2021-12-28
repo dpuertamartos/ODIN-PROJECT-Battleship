@@ -27,7 +27,7 @@ const interfc = () => {
         const col = response[1][1].toString()
         const selectedSquare = document.querySelector(`[row="${row}"][col="${col}"]`)
         if(response[0]==="missed"){
-            addImg(selectedSquare,emptyImage)
+            selectedSquare.setAttribute("style","opacity:0.2;")
         }
         else{
             addImg(selectedSquare,boatImage)
@@ -48,7 +48,7 @@ const interfc = () => {
                 const colAttacked = Number(square.getAttribute("col"))
                 const response = enemy.play([rowAttacked, colAttacked],player)
                 if(response==="missed"){
-                    addImg(square,emptyImage)
+                    square.setAttribute("style","opacity:0.2;")
                     if(player.getTurn()===true){
                         computerPlay(player,enemy)
                         if(enemy.board.checkGameOver()){

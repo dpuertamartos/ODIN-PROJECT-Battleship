@@ -3,6 +3,7 @@ import Gameboard from "./gameboard.js"
 import Controller from "./controller.js"
 import Interface from "./interface.js"
 import css from "./style.css"
+import backgroundSound from "./assets/music.mp3"
 
 const gameboard1 = Gameboard()
 const gameboard2 = Gameboard()
@@ -14,7 +15,16 @@ const visual = Interface()
 
 controller.generateShips(player)
 controller.generateShips(computer)
-visual.initialize(player,computer)
+
+const playButton = document.querySelector(".play")
+const modal = document.querySelector(".modal")
+let sound = new Audio(backgroundSound)
+playButton.addEventListener("click", ()=>{
+    sound.play()
+    visual.initialize(player,computer)
+    modal.remove()
+})
+
 
 
 
