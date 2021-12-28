@@ -1,5 +1,4 @@
 import { isArrayInArray } from "./gameboard"
-import { passTurn } from "./index.js"
 import boatImage from "./img/boat.png"
 import sinkBoat from "./img/sinkboat.png"
 import blankImage from "./img/blank.png"
@@ -126,16 +125,22 @@ const interfc = () => {
         const parent = document.querySelector(".modal-content")
         let selectedList = []
         col.addEventListener("mouseover", ()=>{
+            selectedList = []
             for(let w=0;w<5;w++){
-                selectedList.push(parent.querySelector(`[row="${i+w}"][col="${j}"]`))
+                const squareToAdd = parent.querySelector(`[row="${i+w}"][col="${j}"]`)
+                if(squareToAdd!==null){selectedList.push(squareToAdd)}        
             }
-            
-            console.log(selectedList, i, j, col)
-            selectedList.forEach(s=>s.setAttribute("style","opacity: 0.2;"))
+            if(selectedList.length<5){
+                selectedList.forEach(s=>s.setAttribute("style","opacity: 0.2; background-color: red;"))
+            }
+            else{
+                selectedList.forEach(s=>s.setAttribute("style","opacity: 0.2; background-color: green;"))
+            }     
+            console.log(selectedList)
         })
         col.addEventListener("mouseout", ()=>{
             selectedList.forEach(s=>s.setAttribute("style","opacity: 0.7;"))
-        })
+        }) 
     }
 
     const createPlacingBoard = () => {
