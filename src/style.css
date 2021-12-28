@@ -10,6 +10,19 @@
     position: relative;
 }
 
+.notificationContainerMain{
+    padding-top: 3.5%;
+}
+
+.notificationContainer{
+    background-color: #1C292E;
+    height: 80px;
+    border-radius: 10px;
+    opacity: 0.7;
+    color: wheat;
+    font-size: 1.7rem;
+}
+
 .square{
     height: 60px;
     width: 4vw;
@@ -20,8 +33,18 @@
     opacity: 0.7;
 }
 
+.boardTitleContainer{
+    background-color: #355C64;
+    opacity: 0.65;
+    color:whitesmoke;
+    font-size: 2rem;
+    text-align: center;
+    margin: 0% 10% 10% 12%;
+    border-radius: 20px;
+}
+
 .boardcontainer{
-    margin: 10% 0% 0% 0%;
+    margin: 7% 0% 0% 0%;
 }
 
 
@@ -37,8 +60,10 @@
 }
 
 .cr{
-    margin-top: 4%;
+    margin: 4% 0 0.5%;
     text-align: center;
+    color: #1C292E;
+    font-size: 1.5rem;
 }
 
 /* modal */

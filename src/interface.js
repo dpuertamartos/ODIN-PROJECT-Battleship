@@ -81,7 +81,7 @@ const interfc = () => {
     const createNotification = (notification)=>{
         const notContainer = document.querySelector("#notification")
         notContainer.textContent=notification
-        setTimeout(() => notContainer.textContent = "",2000)
+        setTimeout(() => notContainer.textContent = "",3000)
     }
 
     const createBoard = (container,player,enemy) => {
@@ -111,7 +111,7 @@ const interfc = () => {
         createBoard(g1container,player1,player2)
         const g2container = document.querySelector("#player2board")
         createBoard(g2container,player2,player1)
-        createNotification("GAME START")
+        createNotification("GAME START. CLICK ENEMY WATERS TO ATTACK!!")
     }
 
     const gameOver = (position) => {
