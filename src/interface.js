@@ -214,7 +214,13 @@ const interfc = () => {
         const row2 = document.createElement("div")
         const switchButton = document.createElement("button")
         switchButton.className = "btn btn-success changeAxis"
-        switchButton.textContent = "Change axis"
+        if(axisX){
+            switchButton.textContent = "Vertical selected"
+
+        }
+        else{
+            switchButton.textContent = "Horizontal selected"
+        }
         switchButton.addEventListener("click", ()=>{
             axisX=!axisX
             console.log("axis X", axisX)

@@ -2,7 +2,7 @@
     background-image: url("./img/background.jpg");
     background-color: #cccccc;
     height: 100%;
-    min-height: 1600px;
+    min-height: 1700px;
     padding: 0% 0% 1.5%;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,11 +16,6 @@
 }
 .github{
     width: 50px;
-}
-
-.rowGitHub{
-    max-height: 50px;
-    text-align: left;
 }
 
 .credentials{
@@ -105,7 +100,7 @@
 }
 
 .cr{
-    margin: 4% 0 0.5%;
+    margin: 1% 0 0.5%;
     text-align: center;
     color: #1C292E;
     font-size: 1.5rem;
