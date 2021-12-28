@@ -10,6 +10,8 @@
     position: relative;
 }
 
+
+
 .notificationContainerMain{
     padding-top: 3.5%;
 }
@@ -31,6 +33,25 @@
     border-radius: 10px;
     background-color:azure;
     opacity: 0.7;
+}
+.boatplacingTitle{
+    color: whitesmoke;
+    font-size: 1.5rem;
+}
+
+.boatplacing{
+    height: 40px;
+    width: 40px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: green;
+    margin-right: 1%;
+    border-radius: 10px;
+}
+
+.changeAxis{
+    margin: 5% 0% 6%;
+    font-size: 1.5rem;
 }
 
 .boardTitleContainer{

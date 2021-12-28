@@ -143,11 +143,31 @@ const interfc = () => {
         }) 
     }
 
-    const createPlacingBoard = () => {
+    const createPlacingBoard = (length) => {
         const parent = document.querySelector(".modal-content")
         parent.textContent=""
         const container = document.createElement("div")
         container.className = "container"
+        const row1 = document.createElement("div")
+        row1.className="row placingBoardTitle justify-content-start"
+        const col = document.createElement("div")
+        col.className="col-4 col-lg-6 boatplacingTitle d-flex justify-content-center" 
+        col.textContent="Placing boat:"
+        const col2 = document.createElement("div")
+        col2.className="col-8 col-lg-6 d-flex justify-content-center" 
+        row1.append(col,col2)
+        for(let i=0;i<length;i++){
+            const span = document.createElement("span")
+            span.className="boatplacing" 
+            col2.append(span)
+        }
+        const row2 = document.createElement("div")
+        const switchButton = document.createElement("button")
+        switchButton.className = "btn btn-success changeAxis"
+        switchButton.textContent = "Change axis"
+        row2.append(switchButton)
+        container.append(row1,row2)
+
         for(let i=0;i<10;i++){
             const row = document.createElement("div")
             row.className="row"
